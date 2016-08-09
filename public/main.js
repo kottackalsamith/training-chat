@@ -12,12 +12,12 @@ app.controller('ChatCtrl', function ($scope, socket) {
     $scope.msgs = [];
     $scope.sendMsg = function () {
         socket.emit('send msg', $scope.msg.text);
-         console.log(' angular send message' + $scope.msg.text);
+        console.log(' angular send message' + $scope.msg.text);
         $scope.msg.text = '';
     }
 
-    socket.on('get msg', function(data){
-        console.log(' got message' + data);
+    socket.on('get msg', function (data) {
+        console.log('client recived message:' + data);
         $scope.msgs.push(data);
         $scope.$digest();
     });

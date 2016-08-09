@@ -3,6 +3,7 @@
 
 var express = require('express'),
     app = express(),
+    mongoose = require('mongoose'),
     server = require('http').createServer(app),
     io = require('socket.io')(server);
 
@@ -11,16 +12,41 @@ var host = "127.0.0.1";
 
 app.use(express.static(__dirname + '/public'));
 app.use(express.static(__dirname + '/bower_components'));
-io.sockets.on('connection', function (socket) {
-    console.log('a user connected');
-    socket.on('send msg', function(data){
-        console.log('message' + data);
-        io.sockets.emit('get msg', data);
-    });
+
+var databasename = "chat";
+mongoose.connect('mongodb://localhost/' + databasename, function (err) {
+    if (err) {
+        throw err;
+    }
+    else {
+        console.log("Db working");
+    }
 });
+
+var msgSchema = mongoose.Schema({
+    msg: String,
+    time: { type: Date, default: Date.now }
+});
+
+var Chat = mongoose.model("Message", msgSchema);
 
 var myserver = server.listen(port, host, function () {
     var host = myserver.address().address;
     var port = myserver.address().port;
     console.log('Server running at http://%s:%s', host, port);
+});
+
+io.sockets.on('connection', function (socket) {
+    socket.on('send msg', function (data) {
+        console.log('server Get message:' + data);
+        var newMsg = new Chat({ msg: data });
+        newMsg.save(function (err) {
+            if (err) {
+                throw err;
+            }
+            else {
+                io.sockets.emit('get msg', data);
+            }
+        });
+    });
 });

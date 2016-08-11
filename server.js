@@ -24,7 +24,7 @@ mongoose.connect('mongodb://localhost/' + databasename, function (err) {
 });
 
 var msgSchema = mongoose.Schema({
-    msg: String,
+    message: String,
     time: { type: Date, default: Date.now },
     username : String
 });

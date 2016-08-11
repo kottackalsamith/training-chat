@@ -5,7 +5,7 @@
     var name = prompt("Please enter your name");
 
 
-    var app = angular.module('chatApp', ['ui.bootstrap', 'ngRoute']);
+    var app  = angular.module('chatApp', ['ui.bootstrap', 'ngRoute']);
 
     app.factory('socket', function () {
         var socket = io.connect('http://localhost:3000');
@@ -14,12 +14,12 @@
 
 
     app.controller('ChatCtrl', function ($scope, socket) {
-        $scope.username = [];
-        $scope.username = name;
+        $scope.username    = [];
+        $scope.username    = name;
         console.log('username:' + $scope.username);
         $scope.CurrentDate = new Date();
-        $scope.msgs = [];
-        $scope.sendMsg = function () {
+        $scope.msgs        = [];
+        $scope.sendMsg     = function () {
             socket.emit('send msg', { message: $scope.msg.text, username: $scope.username });
             console.log(' angular send message' + $scope.msg.text);
             $scope.msg.text = '';

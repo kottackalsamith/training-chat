@@ -1,0 +1,10 @@
+<div class="col-md-12 col-lg-12" ng-controller="ChatCtrl">
+    <input type="text" name="username" ng-model="username">
+    <button ng-click="go('/chat')" value="enter" class="btn btn-primary">Enter</button>
+</div>
+
+<script>
+    $scope.go = function (path) {
+        $location.path(path);
+    };
+</script>

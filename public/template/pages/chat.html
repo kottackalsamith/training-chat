@@ -1,0 +1,75 @@
+<div class="col-md-12 col-lg-12">
+            <div class="panel">
+                <!--Heading-->
+                <div class="panel-heading" ng-controller="ChatCtrl">
+                    <div class="panel-control">
+                        <div class="btn-group">
+                            <button class="btn btn-default" type="button" data-toggle="collapse" data-target="#demo-chat-body"><i class="fa fa-chevron-down"></i></button>
+                            <button type="button" class="btn btn-default" data-toggle="dropdown"><i class="fa fa-gear"></i></button>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li><a href="#">Available</a></li>
+                                <li><a href="#">Busy</a></li>
+                                <li><a href="#">Away</a></li>
+                                <li class="divider"></li>
+                                <li><a id="demo-connect-chat" href="#" class="disabled-link" data-target="#demo-chat-body">Connect</a></li>
+                                <li><a id="demo-disconnect-chat" href="#" data-target="#demo-chat-body">Disconect</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <h3 class="panel-title" id="chat-title">Chat {{username}}</h3>
+                </div>
+
+                <!--Widget body-->
+                <div id="demo-chat-body" class="collapse in" ng-controller="ChatCtrl">
+                    <div class="nano has-scrollbar" style="height:380px">
+                        <div class="nano-content pad-all" tabindex="0" style="right: -17px;">
+                            <ul class="list-unstyled media-block">
+                                <li class="mar-btm" ng-repeat="msg in msgs track by $index">
+                                    <div class="media-left" ng-show="username == msg.username">
+                                        <img src="http://bootdey.com/img/Content/avatar/avatar1.png" class="img-circle img-sm" alt="Profile Picture">
+                                    </div>
+                                    <div class="media-right" ng-hide="username == msg.username">
+                                        <img src="http://bootdey.com/img/Content/avatar/avatar2.png" class="img-circle img-sm" alt="Profile Picture">
+                                    </div>
+                                    <div class="media-body pad-hor" ng-show="username == msg.username">
+                                        <div class="speech">
+                                            <a href="#" class="media-heading">{{msg.username}}</a>
+                                            <p>{{msg.message}}</p>
+                                            <p class="speech-time">
+                                                <i class="fa fa-clock-o fa-fw"></i> {{CurrentDate | date:'HH:mm:ss'}} {{CurrentDate | date: 'dd/MM/yyyy'}}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="media-body pad-hor speech-right" ng-hide="username == msg.username">
+                                        <div class="speech">
+                                            <a href="#" class="media-heading">{{msg.username}}</a>
+                                            <p>{{msg.message}}</p>
+                                            <p class="speech-time">
+                                                <i class="fa fa-clock-o fa-fw"></i>  {{CurrentDate | date:'HH:mm:ss'}} {{CurrentDate | date: 'dd/MM/yyyy'}}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="nano-pane">
+                            <div class="nano-slider" style="height: 141px; transform: translate(0px, 0px);"></div>
+                        </div>
+                    </div>
+
+                    <!--Widget footer-->
+                    <div class="panel-footer">
+                        <form ng-submit="sendMsg()">
+                            <div class="row">
+                                <div class="col-xs-9">
+                                    <input type="text" placeholder="Enter your text" class="form-control chat-input" ng-model="msg.text">
+                                </div>
+                                <div class="col-xs-3">
+                                    <button class="btn btn-primary btn-block" type="submit">Send</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>

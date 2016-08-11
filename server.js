@@ -25,7 +25,8 @@ mongoose.connect('mongodb://localhost/' + databasename, function (err) {
 
 var msgSchema = mongoose.Schema({
     msg: String,
-    time: { type: Date, default: Date.now }
+    time: { type: Date, default: Date.now },
+    username : String
 });
 
 var Chat = mongoose.model("Message", msgSchema);
@@ -38,8 +39,8 @@ var myserver = server.listen(port, host, function () {
 
 io.sockets.on('connection', function (socket) {
     socket.on('send msg', function (data) {
-        console.log('server Get message:' + data);
-        var newMsg = new Chat({ msg: data });
+        console.log('server Get message:' + data.message + '\n username' + data.username);
+        var newMsg = new Chat({ message: data.message, username: data.username});
         newMsg.save(function (err) {
             if (err) {
                 throw err;

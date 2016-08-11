@@ -22,6 +22,8 @@
   "dependencies": {
     "angular": "^1.5.8",
     "bootstrap": "^3.3.7",
-    "normalize-css": "^4.2.0"
+    "normalize-css": "^4.2.0",
+    "angular-bootstrap": "^2.0.1",
+    "angular-route": "^1.5.8"
   }
 }

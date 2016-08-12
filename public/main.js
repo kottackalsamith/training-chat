@@ -23,7 +23,7 @@
             socket.emit('send msg', { message: $scope.msg.text, username: $scope.username });
             console.log(' angular send message' + $scope.msg.text);
             $scope.msg.text = '';
-        }
+        };
 
         socket.on('get msg', function (data) {
             console.log('client recived message:' + data.message + '\n username' + data.username);

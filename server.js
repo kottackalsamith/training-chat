@@ -3,44 +3,40 @@
 
 var express = require('express'),
     app = express(),
-    mongoose = require('mongoose'),
+    morgan = require('morgan'),
     server = require('http').createServer(app),
     io = require('socket.io')(server);
 
-var port = 3000;
-var host = "127.0.0.1";
+// log every request to the console
+app.use(morgan('dev'));
 
+// 
 app.use(express.static(__dirname + '/public'));
+
+// 
 app.use(express.static(__dirname + '/bower_components'));
 
-var databasename = "chat";
-mongoose.connect('mongodb://localhost/' + databasename, function (err) {
-    if (err) {
-        throw err;
-    }
-    else {
-        console.log("Db working");
-    }
-});
+// set the server port
+var port = 3000;
+// set the host 
+var host = "127.0.0.1";
 
-var msgSchema = mongoose.Schema({
-    message: String,
-    time: { type: Date, default: Date.now },
-    username : String
-});
-
-var Chat = mongoose.model("Message", msgSchema);
-
+// Start Server
 var myserver = server.listen(port, host, function () {
     var host = myserver.address().address;
     var port = myserver.address().port;
     console.log('Server running at http://%s:%s', host, port);
 });
 
+
+// Initalize a instance of the database
+var ChatDb = require('./app/model');
+
+
 io.sockets.on('connection', function (socket) {
     socket.on('send msg', function (data) {
         console.log('server Get message:' + data.message + '\n username' + data.username);
-        var newMsg = new Chat({ message: data.message, username: data.username});
+        var newMsg = new ChatDb({ message: data.message, username: data.username });
         newMsg.save(function (err) {
             if (err) {
                 throw err;
